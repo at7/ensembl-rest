@@ -106,3 +106,4 @@
 106	\N	patch	patch_94_95_a.sql|schema version
 107	\N	patch	patch_94_95_b.sql|create table to store allele synonyms
 108	\N	patch	patch_95_96_a.sql|schema_version
+109	\N	patch	patch_96_97_b.sql|move ancestral allele column to variation_feature
