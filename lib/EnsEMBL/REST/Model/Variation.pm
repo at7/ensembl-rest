@@ -150,7 +150,6 @@ sub to_hash {
   $variation_hash->{ambiguity} = $variation->ambig_code;
   $variation_hash->{synonyms} = $variation->get_all_synonyms;
   $variation_hash->{failed} = $variation->failed_description if $variation->is_failed;
-  $variation_hash->{ancestral_allele} = $variation->ancestral_allele;
   $variation_hash->{var_class} = $variation->var_class;
   $variation_hash->{most_severe_consequence} = $variation->display_consequence;
   $variation_hash->{MAF} = $variation->minor_allele_frequency;
@@ -158,6 +157,13 @@ sub to_hash {
   $variation_hash->{evidence} = $variation->get_all_evidence_values;
   $variation_hash->{clinical_significance} = $variation->get_all_clinical_significance_states() if @{$variation->get_all_clinical_significance_states()};
   $variation_hash->{mappings} = $self->get_variationFeature_info($variation);
+  if (scalar @{$variation_hash->{mappings}} == 1) {
+    my ($vf) = @{$variation->get_all_VariationFeatures()};
+    $variation_hash->{ancestral_allele} = $vf->ancestral_allele;
+  } else {
+    $variation_hash->{ancestral_allele} = undef;
+  }
+
   $variation_hash->{populations} = $self->get_allele_info($variation) if $c->request->param('pops');
   $variation_hash->{genotypes} = $self->get_sampleGenotype_info($variation) if $c->request->param('genotypes');
   $variation_hash->{genotyping_chips} = $self->get_genotypingChip_info($variation) if $c->request->param('genotyping_chips');
